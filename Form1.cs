@@ -38,7 +38,7 @@ namespace WindowsFormsApplication1
         public string slider_cache;
         public bool rewrited;
         public bool rewrited_list_async = true;
-        public string text;
+        public string text = "";
         public string cache;
         public string old_rewrited_string;
         public string return_value;
@@ -192,7 +192,16 @@ namespace WindowsFormsApplication1
         {
             if (rewrited_list_async == true)
             {
-                text = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Process_list_config.cfg"));
+                string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Process_list_config.cfg");
+                if (File.Exists(path))
+                {
+                    text = File.ReadAllText(path);
+                }
+                else
+                {
+                    FileStream fileStream = File.Create(path);
+                    fileStream.Close();
+                }
                 text_list_cache = text;
                 rewrited_list_async = false;
             }
